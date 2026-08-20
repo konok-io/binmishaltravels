@@ -4,15 +4,18 @@ export interface Branch {
   code: string;
   name: string;
   nameAr?: string;
-  city: string;
-  country: 'SA' | 'BD';
+  city?: string;
+  country?: 'SA' | 'BD';
   address?: string;
   phone?: string;
   email?: string;
   isActive: boolean;
   isHeadOffice: boolean;
+  status?: 'active' | 'inactive';
+  managerName?: string;
+  managerPhone?: string;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 // User Types
