@@ -228,6 +228,7 @@ export const ar = {
   // Reports
   reports: 'التقارير',
   report: 'تقرير',
+  reportType: 'نوع التقرير',
   dailyReport: 'التقرير اليومي',
   weeklyReport: 'التقرير الأسبوعي',
   monthlyReport: 'التقرير الشهري',
@@ -243,6 +244,19 @@ export const ar = {
   generateReport: 'إنشاء تقرير',
   exportReport: 'تصدير التقرير',
   printReport: 'طباعة التقرير',
+  generateAndViewReports: 'إنشاء وعرض التقارير',
+  quickSelect: 'اختيار سريع',
+  last7Days: 'آخر 7 أيام',
+  last30Days: 'آخر 30 يوم',
+  last90Days: 'آخر 90 يوم',
+  thisMonth: 'هذا الشهر',
+  thisYear: 'هذه السنة',
+  revenueSummary: 'ملخص الإيرادات',
+  serviceBreakdown: 'تفصيل الخدمات',
+  branchBreakdown: 'تفصيل الفروع',
+  collectionRate: 'معدل التحصيل',
+  noDataForSelectedPeriod: 'لا توجد بيانات للفترة المحددة',
+  count: 'العدد',
   
   // Users
   users: 'المستخدمين',

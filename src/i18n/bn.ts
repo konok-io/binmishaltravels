@@ -228,6 +228,7 @@ export const bn = {
   // Reports
   reports: 'রিপোর্ট',
   report: 'রিপোর্ট',
+  reportType: 'রিপোর্ট টাইপ',
   dailyReport: 'দৈনিক রিপোর্ট',
   weeklyReport: 'সাপ্তাহিক রিপোর্ট',
   monthlyReport: 'মাসিক রিপোর্ট',
@@ -243,6 +244,19 @@ export const bn = {
   generateReport: 'রিপোর্ট তৈরি করুন',
   exportReport: 'রিপোর্ট রপ্তানি',
   printReport: 'রিপোর্ট প্রিন্ট',
+  generateAndViewReports: 'রিপোর্ট তৈরি ও দেখুন',
+  quickSelect: 'দ্রুত নির্বাচন',
+  last7Days: 'শেষ ৭ দিন',
+  last30Days: 'শেষ ৩০ দিন',
+  last90Days: 'শেষ ৯০ দিন',
+  thisMonth: 'এই মাস',
+  thisYear: 'এই বছর',
+  revenueSummary: 'আয় সারসংক্ষেপ',
+  serviceBreakdown: 'সেবা বিশ্লেষণ',
+  branchBreakdown: 'শাখা বিশ্লেষণ',
+  collectionRate: 'সংগ্রহ হার',
+  noDataForSelectedPeriod: 'নির্বাচিত সময়ের জন্য কোনো তথ্য নেই',
+  count: 'সংখ্যা',
   
   // Users
   users: 'ইউজার',

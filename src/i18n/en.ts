@@ -228,6 +228,7 @@ export const en = {
   // Reports
   reports: 'Reports',
   report: 'Report',
+  reportType: 'Report Type',
   dailyReport: 'Daily Report',
   weeklyReport: 'Weekly Report',
   monthlyReport: 'Monthly Report',
@@ -243,6 +244,19 @@ export const en = {
   generateReport: 'Generate Report',
   exportReport: 'Export Report',
   printReport: 'Print Report',
+  generateAndViewReports: 'Generate and view reports',
+  quickSelect: 'Quick Select',
+  last7Days: 'Last 7 Days',
+  last30Days: 'Last 30 Days',
+  last90Days: 'Last 90 Days',
+  thisMonth: 'This Month',
+  thisYear: 'This Year',
+  revenueSummary: 'Revenue Summary',
+  serviceBreakdown: 'Service Breakdown',
+  branchBreakdown: 'Branch Breakdown',
+  collectionRate: 'Collection Rate',
+  noDataForSelectedPeriod: 'No data available for selected period',
+  count: 'Count',
   
   // Users
   users: 'Users',
