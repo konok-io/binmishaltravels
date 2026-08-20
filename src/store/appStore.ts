@@ -20,8 +20,8 @@ interface AppState {
   setSidebarOpen: (open: boolean) => void;
   
   // Theme
-  theme: 'light' | 'dark';
-  setTheme: (theme: 'light' | 'dark') => void;
+  theme: 'light' | 'dark' | 'system';
+  setTheme: (theme: 'light' | 'dark' | 'system') => void;
   
   // Notifications
   notifications: Notification[];
