@@ -342,6 +342,27 @@ export const ar = {
   standard: 'قياسي',
   premium: 'متميز',
   
+  // Customer Form
+  customerDetails: 'تفاصيل العميل',
+  customerNotFound: 'العميل غير موجود',
+  customerNotFoundDesc: 'العميل الذي تبحث عنه غير موجود.',
+  customerNameAr: 'الاسم (بالعربية)',
+  phoneNumber: 'رقم الهاتف',
+  personalInfo: 'المعلومات الشخصية',
+  contactInfo: 'معلومات الاتصال',
+  accountInfo: 'معلومات الحساب',
+  customerId: 'رقم العميل',
+  iqamaInfo: 'معلومات الإقامة',
+  transactionHistory: 'سجل المعاملات',
+  customerNotes: 'ملاحظات العميل',
+  addNotesPlaceholder: 'أضف ملاحظات حول هذا العميل...',
+  enableEditToAddNotes: 'تفعيل وضع التحرير لإضافة ملاحظات',
+  expired: 'منتهي الصلاحية',
+  expiringSoon: 'ينتهي قريباً',
+  valid: 'صالح',
+  activeServices: 'الخدمات النشطة',
+  basicInfo: 'المعلومات الأساسية',
+  
   // Common
   save: 'حفظ',
   cancel: 'إلغاء',

@@ -342,6 +342,27 @@ export const en = {
   standard: 'Standard',
   premium: 'Premium',
   
+  // Customer Form
+  customerDetails: 'Customer Details',
+  customerNotFound: 'Customer Not Found',
+  customerNotFoundDesc: 'The customer you are looking for does not exist.',
+  customerNameAr: 'Name (Arabic)',
+  phoneNumber: 'Phone Number',
+  personalInfo: 'Personal Information',
+  contactInfo: 'Contact Information',
+  accountInfo: 'Account Information',
+  customerId: 'Customer ID',
+  iqamaInfo: 'Iqama Information',
+  transactionHistory: 'Transaction History',
+  customerNotes: 'Customer Notes',
+  addNotesPlaceholder: 'Add notes about this customer...',
+  enableEditToAddNotes: 'Enable edit mode to add notes',
+  expired: 'Expired',
+  expiringSoon: 'Expiring Soon',
+  valid: 'Valid',
+  activeServices: 'Active Services',
+  basicInfo: 'Basic Info',
+  
   // Common
   save: 'Save',
   cancel: 'Cancel',

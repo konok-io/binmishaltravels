@@ -342,6 +342,27 @@ export const bn = {
   standard: 'স্ট্যান্ডার্ড',
   premium: 'প্রিমিয়াম',
   
+  // Customer Form
+  customerDetails: 'গ্রাহকের বিবরণ',
+  customerNotFound: 'গ্রাহক পাওয়া যায়নি',
+  customerNotFoundDesc: 'আপনি যে গ্রাহকটি খুঁজছেন সেটি নেই।',
+  customerNameAr: 'নাম (আরবি)',
+  phoneNumber: 'ফোন নম্বর',
+  personalInfo: 'ব্যক্তিগত তথ্য',
+  contactInfo: 'যোগাযোগ তথ্য',
+  accountInfo: 'অ্যাকাউন্ট তথ্য',
+  customerId: 'গ্রাহক আইডি',
+  iqamaInfo: 'আইকামা তথ্য',
+  transactionHistory: 'লেনদেন ইতিহাস',
+  customerNotes: 'গ্রাহকের নোট',
+  addNotesPlaceholder: 'এই গ্রাহক সম্পর্কে নোট যোগ করুন...',
+  enableEditToAddNotes: 'নোট যোগ করতে এডিট মোড চালু করুন',
+  expired: 'মেয়াদ শেষ',
+  expiringSoon: 'শীঘ্রই মেয়াদ শেষ',
+  valid: 'বৈধ',
+  activeServices: 'সক্রিয় সেবা',
+  basicInfo: 'মৌলিক তথ্য',
+  
   // Common
   save: 'সেভ করুন',
   cancel: 'বাতিল',
