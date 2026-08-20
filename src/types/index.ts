@@ -28,11 +28,11 @@ export interface User {
   role: UserRole;
   branchId?: string;
   branchName?: string;
-  permissions: Permission[];
+  permissions?: Permission[];
   isActive: boolean;
   lastLogin?: string;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 export type UserRole = 'super_admin' | 'branch_manager' | 'branch_staff';

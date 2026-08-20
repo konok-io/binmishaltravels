@@ -11,6 +11,7 @@ import { Customers } from '@/pages/customers';
 import { AddCustomer } from '@/pages/customers/new';
 import { Reports } from '@/pages/reports';
 import { Branches } from '@/pages/branches';
+import { Users } from '@/pages/users';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -60,7 +61,7 @@ const AppRoutes: React.FC = () => {
         <Route path="customers/new" element={<AddCustomer />} />
         <Route path="reports" element={<Reports />} />
         <Route path="branches" element={<Branches />} />
-        <Route path="users" element={<div>Users Page</div>} />
+        <Route path="users" element={<Users />} />
         <Route path="settings" element={<div>Settings Page</div>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
