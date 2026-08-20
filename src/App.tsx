@@ -17,6 +17,7 @@ import { Services } from '@/pages/services';
 import { CustomerDetails } from '@/pages/customer';
 import { TransactionView } from '@/pages/transaction/view';
 import { TransactionEdit } from '@/pages/transaction/edit';
+import { useInitializeData } from '@/hooks/useInitialize';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -44,6 +45,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated } = useAuthStore();
+  useInitializeData();
 
   return (
     <Routes>

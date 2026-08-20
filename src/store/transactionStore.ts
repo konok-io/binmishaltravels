@@ -1,16 +1,20 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ServiceTransaction, ServiceCategory, DashboardStats, ServiceBreakdown, BranchBreakdown } from '@/types';
+import { dataProvider } from '@/api/dataProvider';
 
 interface TransactionState {
   transactions: ServiceTransaction[];
   isLoading: boolean;
+  error: string | null;
   
   // Actions
+  fetchTransactions: (params?: { branchId?: string }) => Promise<void>;
   setTransactions: (transactions: ServiceTransaction[]) => void;
   addTransaction: (transaction: ServiceTransaction) => void;
   updateTransaction: (id: string, data: Partial<ServiceTransaction>) => void;
-  deleteTransaction: (id: string) => void;
+  deleteTransaction: (id: string) => Promise<void>;
+  createTransaction: (data: Omit<ServiceTransaction, 'id' | 'createdAt' | 'updatedAt'>) => Promise<ServiceTransaction>;
   getTransactionById: (id: string) => ServiceTransaction | undefined;
   
   // Query methods
@@ -33,6 +37,17 @@ export const useTransactionStore = create<TransactionState>()(
     (set, get) => ({
       transactions: [],
       isLoading: false,
+      error: null,
+
+      fetchTransactions: async (params) => {
+        set({ isLoading: true, error: null });
+        try {
+          const data = await dataProvider.transactions.getAll(params);
+          set({ transactions: data, isLoading: false });
+        } catch (error: any) {
+          set({ error: error.message, isLoading: false });
+        }
+      },
 
       setTransactions: (transactions) => set({ transactions }),
 
@@ -50,10 +65,32 @@ export const useTransactionStore = create<TransactionState>()(
         }));
       },
 
-      deleteTransaction: (id) => {
-        set((state) => ({
-          transactions: state.transactions.filter((t) => t.id !== id),
-        }));
+      deleteTransaction: async (id) => {
+        set({ isLoading: true });
+        try {
+          await dataProvider.transactions.delete(id);
+          set((state) => ({
+            transactions: state.transactions.filter((t) => t.id !== id),
+            isLoading: false,
+          }));
+        } catch (error: any) {
+          set({ error: error.message, isLoading: false });
+        }
+      },
+
+      createTransaction: async (data) => {
+        set({ isLoading: true, error: null });
+        try {
+          const newTransaction = await dataProvider.transactions.create(data);
+          set((state) => ({
+            transactions: [newTransaction, ...state.transactions],
+            isLoading: false,
+          }));
+          return newTransaction;
+        } catch (error: any) {
+          set({ error: error.message, isLoading: false });
+          throw error;
+        }
       },
 
       getTransactionById: (id) => {
