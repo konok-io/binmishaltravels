@@ -220,10 +220,10 @@ export const DashboardCharts: React.FC = () => {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                   <XAxis dataKey="month" stroke="#6B7280" fontSize={12} />
-                  <YAxis stroke="#6B7280" fontSize={12} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                  <YAxis stroke="#6B7280" fontSize={12} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                    formatter={(value: any) => [`${Number(value).toLocaleString()} SAR`, t('revenue')]}
+                    formatter={(value) => [`${Number(value).toLocaleString()} SAR`, t('revenue')]}
                   />
                   <Area
                     type="monotone"
@@ -249,10 +249,10 @@ export const DashboardCharts: React.FC = () => {
                 <BarChart data={dailyRevenue}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                   <XAxis dataKey="day" stroke="#6B7280" fontSize={12} />
-                  <YAxis stroke="#6B7280" fontSize={12} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                  <YAxis stroke="#6B7280" fontSize={12} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                    formatter={(value: any, name: any) => {
+                    formatter={(value, name) => {
                       if (name === 'revenue') return [`${Number(value).toLocaleString()} SAR`, t('revenue')];
                       return [value, t('transactions')];
                     }}
@@ -290,10 +290,10 @@ export const DashboardCharts: React.FC = () => {
                     </Pie>
                     <Tooltip
                       contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                      formatter={(value: any) => [`${Number(value).toLocaleString()} SAR`, t('revenue')]}
+                      formatter={(value) => [`${Number(value).toLocaleString()} SAR`, t('revenue')]}
                     />
                     <Legend
-                      formatter={(value) => <span className="text-gray-700 text-sm">{value}</span>}
+                      formatter={(value: string) => <span className="text-gray-700 text-sm">{value}</span>}
                       wrapperStyle={{ paddingTop: '20px' }}
                     />
                   </PieChart>
@@ -320,7 +320,7 @@ export const DashboardCharts: React.FC = () => {
                   <YAxis type="category" dataKey="name" stroke="#6B7280" fontSize={12} width={80} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                    formatter={(value: any, name: any) => [value, t(String(name).toLowerCase())]}
+                    formatter={(value, name) => [value, t(String(name).toLowerCase())]}
                   />
                   <Bar dataKey="count" radius={[0, 4, 4, 0]}>
                     {transactionStatus.map((statusItem, index) => (
