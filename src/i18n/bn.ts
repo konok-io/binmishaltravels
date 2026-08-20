@@ -362,6 +362,22 @@ export const bn = {
   valid: 'বৈধ',
   activeServices: 'সক্রিয় সেবা',
   basicInfo: 'মৌলিক তথ্য',
+  viewProfile: 'প্রোফাইল দেখুন',
+  
+  // Transaction CRUD
+  transactionNotFound: 'লেনদেন পাওয়া যায়নি',
+  transactionNotFoundDesc: 'আপনি যে লেনদেনটি খুঁজছেন সেটি নেই।',
+  editTransaction: 'লেনদেন সম্পাদনা',
+  deleteTransaction: 'লেনদেন মুছুন',
+  deleteTransactionConfirm: 'আপনি কি এই লেনদেনটি মুছে ফেলতে চান? এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।',
+  transactionInfo: 'লেনদেন তথ্য',
+  paymentSummary: 'পেমেন্ট সারাংশ',
+  paymentProgress: 'পেমেন্ট অগ্রগতি',
+  remaining: 'বাকি',
+  fullyPaid: 'সম্পূর্ণ পরিশোধিত',
+  statusPayment: 'স্ট্যাটাস ও পেমেন্ট',
+  staff: 'স্টাফ',
+  paidAmountExceedsTotal: 'পরিশোধিত পরিমাণ মোট পরিমাণের বেশি হতে পারে না',
   
   // Common
   save: 'সেভ করুন',

@@ -362,6 +362,22 @@ export const ar = {
   valid: 'صالح',
   activeServices: 'الخدمات النشطة',
   basicInfo: 'المعلومات الأساسية',
+  viewProfile: 'عرض الملف',
+  
+  // Transaction CRUD
+  transactionNotFound: 'المعاملة غير موجودة',
+  transactionNotFoundDesc: 'المعاملة التي تبحث عنها غير موجودة.',
+  editTransaction: 'تعديل المعاملة',
+  deleteTransaction: 'حذف المعاملة',
+  deleteTransactionConfirm: 'هل أنت متأكد من حذف هذه المعاملة؟ لا يمكن التراجع عن هذا الإجراء.',
+  transactionInfo: 'معلومات المعاملة',
+  paymentSummary: 'ملخص الدفع',
+  paymentProgress: 'تقدم الدفع',
+  remaining: 'المتبقي',
+  fullyPaid: 'مدفوع بالكامل',
+  statusPayment: 'الحالة والدفع',
+  staff: 'الموظف',
+  paidAmountExceedsTotal: 'لا يمكن أن يتجاوز المبلغ المدفوع المبلغ الإجمالي',
   
   // Common
   save: 'حفظ',

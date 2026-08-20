@@ -362,6 +362,22 @@ export const en = {
   valid: 'Valid',
   activeServices: 'Active Services',
   basicInfo: 'Basic Info',
+  viewProfile: 'View Profile',
+  
+  // Transaction CRUD
+  transactionNotFound: 'Transaction Not Found',
+  transactionNotFoundDesc: 'The transaction you are looking for does not exist.',
+  editTransaction: 'Edit Transaction',
+  deleteTransaction: 'Delete Transaction',
+  deleteTransactionConfirm: 'Are you sure you want to delete this transaction? This action cannot be undone.',
+  transactionInfo: 'Transaction Information',
+  paymentSummary: 'Payment Summary',
+  paymentProgress: 'Payment Progress',
+  remaining: 'Remaining',
+  fullyPaid: 'Fully Paid',
+  statusPayment: 'Status & Payment',
+  staff: 'Staff',
+  paidAmountExceedsTotal: 'Paid amount cannot exceed total amount',
   
   // Common
   save: 'Save',
