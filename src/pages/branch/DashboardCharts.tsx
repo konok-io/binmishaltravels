@@ -18,6 +18,37 @@ import {
   Legend,
 } from 'recharts';
 
+// Custom tooltip content components to avoid type issues
+const RevenueTooltipContent = ({ active, payload, label, t }: { active?: boolean; payload?: Array<{ value: number }>; label?: string; t: (key: string) => string }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-lg">
+        <p className="text-gray-600 text-sm">{label}</p>
+        <p className="text-blue-600 font-semibold">{`${payload[0].value.toLocaleString()} SAR`}</p>
+        <p className="text-gray-500 text-xs">{t('revenue')}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
+const BarTooltipContent = ({ active, payload, label, t }: { active?: boolean; payload?: Array<{ value: number; dataKey: string }>; label?: string; t: (key: string) => string }) => {
+  if (active && payload && payload.length) {
+    const dataKey = payload[0].dataKey;
+    const isRevenue = dataKey === 'revenue';
+    return (
+      <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-lg">
+        <p className="text-gray-600 text-sm">{label}</p>
+        <p className={isRevenue ? 'text-green-600 font-semibold' : 'text-gray-700 font-semibold'}>
+          {`${payload[0].value.toLocaleString()}${isRevenue ? ' SAR' : ''}`}
+        </p>
+        <p className="text-gray-500 text-xs">{isRevenue ? t('revenue') : t('transactions')}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
 interface MonthData {
@@ -221,10 +252,7 @@ export const DashboardCharts: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                   <XAxis dataKey="month" stroke="#6B7280" fontSize={12} />
                   <YAxis stroke="#6B7280" fontSize={12} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
-                  <Tooltip
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                    formatter={(value) => [`${Number(value).toLocaleString()} SAR`, t('revenue')]}
-                  />
+                  <Tooltip content={<RevenueTooltipContent t={t} />} />
                   <Area
                     type="monotone"
                     dataKey="revenue"
@@ -250,13 +278,7 @@ export const DashboardCharts: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                   <XAxis dataKey="day" stroke="#6B7280" fontSize={12} />
                   <YAxis stroke="#6B7280" fontSize={12} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
-                  <Tooltip
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                    formatter={(value, name) => {
-                      if (name === 'revenue') return [`${Number(value).toLocaleString()} SAR`, t('revenue')];
-                      return [value, t('transactions')];
-                    }}
-                  />
+                  <Tooltip content={<BarTooltipContent t={t} />} />
                   <Bar dataKey="revenue" fill="#10B981" radius={[4, 4, 0, 0]} name={t('revenue')} />
                 </BarChart>
               </ResponsiveContainer>
@@ -288,10 +310,7 @@ export const DashboardCharts: React.FC = () => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                      formatter={(value) => [`${Number(value).toLocaleString()} SAR`, t('revenue')]}
-                    />
+                    <Tooltip content={<RevenueTooltipContent t={t} />} />
                     <Legend
                       formatter={(value: string) => <span className="text-gray-700 text-sm">{value}</span>}
                       wrapperStyle={{ paddingTop: '20px' }}
@@ -318,10 +337,7 @@ export const DashboardCharts: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                   <XAxis type="number" stroke="#6B7280" fontSize={12} />
                   <YAxis type="category" dataKey="name" stroke="#6B7280" fontSize={12} width={80} />
-                  <Tooltip
-                    contentStyle={{ backgroundColor: '#fff', border: '1px solid #E5E7EB', borderRadius: '8px' }}
-                    formatter={(value, name) => [value, t(String(name).toLowerCase())]}
-                  />
+                  <Tooltip content={<BarTooltipContent t={t} />} />
                   <Bar dataKey="count" radius={[0, 4, 4, 0]}>
                     {transactionStatus.map((statusItem, index) => (
                       <Cell key={`cell-${index}`} fill={statusItem.fill} />
