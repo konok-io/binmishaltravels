@@ -378,7 +378,19 @@ export const en = {
   statusPayment: 'Status & Payment',
   staff: 'Staff',
   paidAmountExceedsTotal: 'Paid amount cannot exceed total amount',
-  
+
+  // Dashboard Charts
+  showCharts: 'Show Charts',
+  hideCharts: 'Hide Charts',
+  revenueTrend: 'Revenue Trend',
+  dailyRevenue: 'Daily Revenue',
+  serviceDistribution: 'Service Distribution',
+  transactionStatus: 'Transaction Status',
+  topCustomers: 'Top Customers',
+  avgTransactionValue: 'Avg. Transaction',
+  revenue: 'Revenue',
+  rank: 'Rank',
+
   // Common
   save: 'Save',
   cancel: 'Cancel',

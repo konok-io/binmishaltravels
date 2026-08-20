@@ -378,7 +378,19 @@ export const bn = {
   statusPayment: 'স্ট্যাটাস ও পেমেন্ট',
   staff: 'স্টাফ',
   paidAmountExceedsTotal: 'পরিশোধিত পরিমাণ মোট পরিমাণের বেশি হতে পারে না',
-  
+
+  // Dashboard Charts
+  showCharts: 'চার্ট দেখুন',
+  hideCharts: 'চার্ট লুকান',
+  revenueTrend: 'রাজস্বের প্রবণতা',
+  dailyRevenue: 'দৈনিক রাজস্ব',
+  serviceDistribution: 'সেবার বিভাজন',
+  transactionStatus: 'লেনদেনের অবস্থা',
+  topCustomers: 'শীর্ষ গ্রাহক',
+  avgTransactionValue: 'গড় লেনদেন',
+  revenue: 'রাজস্ব',
+  rank: 'পদমর্যাদা',
+
   // Common
   save: 'সেভ করুন',
   cancel: 'বাতিল',

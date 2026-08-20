@@ -378,7 +378,19 @@ export const ar = {
   statusPayment: 'الحالة والدفع',
   staff: 'الموظف',
   paidAmountExceedsTotal: 'لا يمكن أن يتجاوز المبلغ المدفوع المبلغ الإجمالي',
-  
+
+  // Dashboard Charts
+  showCharts: 'عرض الرسوم البيانية',
+  hideCharts: 'إخفاء الرسوم البيانية',
+  revenueTrend: 'اتجاه الإيرادات',
+  dailyRevenue: 'الإيرادات اليومية',
+  serviceDistribution: 'توزيع الخدمات',
+  transactionStatus: 'حالة المعاملات',
+  topCustomers: 'أفضل العملاء',
+  avgTransactionValue: 'متوسط المعاملة',
+  revenue: 'الإيرادات',
+  rank: 'الترتيب',
+
   // Common
   save: 'حفظ',
   cancel: 'إلغاء',
