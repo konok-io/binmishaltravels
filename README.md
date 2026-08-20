@@ -93,14 +93,98 @@ src/
 
 ## 🌐 Deployment
 
-The application can be deployed to any static hosting:
+### Option 1: Static Hosting (Frontend Only)
 
+Deploy to any static hosting:
 - **Vercel** (Recommended)
 - **Netlify**
 - **Cloudflare Pages**
 - **GitHub Pages**
 
-Simply run `npm run build` and deploy the `dist` folder.
+```bash
+npm run build
+# Deploy 'dist' folder
+```
+
+### Option 2: Full Stack (Frontend + Backend)
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete VPS deployment guide.
+
+**Quick Deploy on Hostinger VPS:**
+```bash
+# SSH to your VPS
+ssh root@your-vps-ip
+
+# Download and run setup script
+curl -fsSL https://raw.githubusercontent.com/konok-io/binmishaltravels/main/scripts/deploy.sh | bash
+```
+
+**Manual Setup:**
+```bash
+cd /var/www/binmishaltravels/server
+npm run build
+npm run seed  # Seed database with initial data
+pm2 start dist/index.js --name "binmishal-api"
+```
+
+### Environment Variables
+
+Create `.env` file in server directory:
+```env
+PORT=5000
+NODE_ENV=production
+MONGODB_URI=mongodb://localhost:27017/binmishaltravels
+JWT_SECRET=your-super-secret-key
+JWT_EXPIRES_IN=7d
+FRONTEND_URL=https://yourdomain.com
+```
+
+For frontend (`.env.production`):
+```env
+VITE_API_URL=https://yourdomain.com/api/v1
+```
+
+### Default Login Credentials
+
+| Email | Password | Role |
+|-------|----------|------|
+| admin@binmishaltravels.com | admin123 | Super Admin |
+| manager.riyadh@binmishaltravels.com | manager123 | Branch Manager |
+| staff.riyadh@binmishaltravels.com | staff123 | Branch Staff |
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐
+│   Frontend      │
+│   (React+PWA)  │
+└────────┬────────┘
+         │ HTTP/API
+         ▼
+┌─────────────────┐
+│   Backend       │
+│   (Express)     │
+└────────┬────────┘
+         │ Mongoose
+         ▼
+┌─────────────────┐
+│   MongoDB       │
+└─────────────────┘
+```
+
+### Frontend Stack
+- React 18.3 + TypeScript
+- Tailwind CSS 3.4
+- Zustand (State Management)
+- React Router 6.28
+- Recharts (Data Visualization)
+- IndexedDB (Offline Storage)
+
+### Backend Stack
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT Authentication
+- PM2 (Process Manager)
 
 ## 📄 License
 
