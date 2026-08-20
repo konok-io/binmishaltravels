@@ -431,12 +431,17 @@ export const en = {
   
   // Offline
   offline: 'Offline',
+  offlineMessage: 'Changes will be saved locally and synced when online',
   online: 'Online',
   syncing: 'Syncing...',
   syncComplete: 'Sync complete',
   syncFailed: 'Sync failed',
   lastSync: 'Last sync',
   pendingChanges: 'Pending changes',
+  pendingSync: 'pending sync',
+  syncDetails: 'Sync Details',
+  pendingItems: 'Pending items',
+  syncNow: 'Sync Now',
   
   // Footer
   copyright: '© 2026 Bin Mishal Travels',

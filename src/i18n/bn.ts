@@ -431,12 +431,17 @@ export const bn = {
   
   // Offline
   offline: 'অফলাইন',
+  offlineMessage: 'পরিবর্তনগুলো স্থানীয়ভাবে সংরক্ষিত হবে এবং অনলাইনে থাকলে সিঙ্ক হবে',
   online: 'অনলাইন',
   syncing: 'সিঙ্ক হচ্ছে...',
   syncComplete: 'সিঙ্ক সম্পন্ন',
   syncFailed: 'সিঙ্ক ব্যর্থ',
   lastSync: 'সর্বশেষ সিঙ্ক',
   pendingChanges: 'পেন্ডিং পরিবর্তন',
+  pendingSync: 'সিঙ্ক প্রতীক্ষিত',
+  syncDetails: 'সিঙ্ক বিবরণ',
+  pendingItems: 'পেন্ডিং আইটেম',
+  syncNow: 'এখন সিঙ্ক করুন',
   
   // Footer
   copyright: '© ২০২৬ বিন মিশাল ট্রাভেলস',

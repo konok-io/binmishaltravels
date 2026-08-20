@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
+import { OfflineIndicator } from '@/components/common/OfflineIndicator';
 import { useAppStore } from '@/store';
 import { useI18n } from '@/i18n';
+import { initializeSync } from '@/lib/sync';
 
 export const Layout: React.FC = () => {
   const { sidebarOpen } = useAppStore();
   const { isRTL } = useI18n();
+
+  useEffect(() => {
+    initializeSync();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -22,6 +28,7 @@ export const Layout: React.FC = () => {
           <Outlet />
         </div>
       </main>
+      <OfflineIndicator />
     </div>
   );
 };

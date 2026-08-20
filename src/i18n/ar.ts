@@ -431,12 +431,17 @@ export const ar = {
   
   // Offline
   offline: 'غير متصل',
+  offlineMessage: 'سيتم حفظ التغييرات محلياً ومزامنتها عند الاتصال',
   online: 'متصل',
   syncing: 'جاري المزامنة...',
   syncComplete: 'اكتملت المزامنة',
   syncFailed: 'فشلت المزامنة',
   lastSync: 'آخر مزامنة',
   pendingChanges: 'تغييرات معلقة',
+  pendingSync: 'في انتظار المزامنة',
+  syncDetails: 'تفاصيل المزامنة',
+  pendingItems: 'العناصر المعلقة',
+  syncNow: 'مزامنة الآن',
   
   // Footer
   copyright: '© 2026 بن ميثال للسفر',

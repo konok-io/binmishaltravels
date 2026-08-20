@@ -8,11 +8,11 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'robots.txt'],
       manifest: {
         name: 'বিন মিশাল ট্রাভেলস',
         short_name: 'বিন মিশাল',
-        description: 'Bin Mishal Travels Management System',
+        description: 'Bin Mishal Travels Management System - Offline Support',
         theme_color: '#1E40AF',
         background_color: '#ffffff',
         display: 'standalone',
@@ -68,8 +68,26 @@ export default defineConfig({
                 statuses: [0, 200]
               }
             }
+          },
+          {
+            urlPattern: /\/api\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 // 24 hours
+              },
+              networkTimeoutSeconds: 10,
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
           }
         ]
+      },
+      devOptions: {
+        enabled: true
       }
     })
   ],
