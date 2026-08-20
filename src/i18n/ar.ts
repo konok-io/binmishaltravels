@@ -324,6 +324,24 @@ export const ar = {
   exportData: 'تصدير البيانات',
   deleteAccount: 'حذف الحساب',
   
+  // Services
+  serviceForms: 'نماذج الخدمات',
+  createServiceTransaction: 'إنشاء معاملة خدمة جديدة',
+  viewTransactions: 'عرض المعاملات',
+  searchByNamePhone: 'البحث بالاسم أو الهاتف',
+  newCustomer: 'عميل جديد',
+  additionalNotes: 'ملاحظات إضافية...',
+  passengerType: 'نوع المسافر',
+  tourist: 'سياحي',
+  work: 'عمل',
+  family: 'عائلي',
+  new: 'جديد',
+  renewal: 'تجديد',
+  documents: 'مستندات',
+  packages: 'طرود',
+  standard: 'قياسي',
+  premium: 'متميز',
+  
   // Common
   save: 'حفظ',
   cancel: 'إلغاء',

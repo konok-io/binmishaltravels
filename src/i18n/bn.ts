@@ -324,6 +324,24 @@ export const bn = {
   exportData: 'ডেটা রপ্তানি',
   deleteAccount: 'অ্যাকাউন্ট মুছুন',
   
+  // Services
+  serviceForms: 'সেবা ফর্ম',
+  createServiceTransaction: 'নতুন সেবা লেনদেন তৈরি করুন',
+  viewTransactions: 'লেনদেন দেখুন',
+  searchByNamePhone: 'নাম বা ফোন দিয়ে খুঁজুন',
+  newCustomer: 'নতুন গ্রাহক',
+  additionalNotes: 'অতিরিক্ত নোট...',
+  passengerType: 'যাত্রীর ধরন',
+  tourist: 'পর্যটক',
+  work: 'কাজ',
+  family: 'পরিবার',
+  new: 'নতুন',
+  renewal: 'নবায়ন',
+  documents: 'নথি',
+  packages: 'প্যাকেজ',
+  standard: 'স্ট্যান্ডার্ড',
+  premium: 'প্রিমিয়াম',
+  
   // Common
   save: 'সেভ করুন',
   cancel: 'বাতিল',

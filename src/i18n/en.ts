@@ -324,6 +324,24 @@ export const en = {
   exportData: 'Export Data',
   deleteAccount: 'Delete Account',
   
+  // Services
+  serviceForms: 'Service Forms',
+  createServiceTransaction: 'Create a new service transaction',
+  viewTransactions: 'View Transactions',
+  searchByNamePhone: 'Search by name or phone',
+  newCustomer: 'New Customer',
+  additionalNotes: 'Additional notes...',
+  passengerType: 'Passenger Type',
+  tourist: 'Tourist',
+  work: 'Work',
+  family: 'Family',
+  new: 'New',
+  renewal: 'Renewal',
+  documents: 'Documents',
+  packages: 'Packages',
+  standard: 'Standard',
+  premium: 'Premium',
+  
   // Common
   save: 'Save',
   cancel: 'Cancel',
