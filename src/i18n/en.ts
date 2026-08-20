@@ -446,6 +446,15 @@ export const en = {
   // Footer
   copyright: '© 2026 Bin Mishal Travels',
   allRightsReserved: 'All rights reserved',
+
+  // Invoice
+  invoice: 'Invoice',
+  printInvoice: 'Print Invoice',
+  billTo: 'Bill To',
+  details: 'Details',
+  subtotal: 'Subtotal',
+  discount: 'Discount',
+  thankYouMessage: 'Thank you for your business!',
 };
 
 export default en;

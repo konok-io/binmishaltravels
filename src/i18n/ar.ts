@@ -446,6 +446,15 @@ export const ar = {
   // Footer
   copyright: '© 2026 بن ميثال للسفر',
   allRightsReserved: 'جميع الحقوق محفوظة',
+
+  // Invoice
+  invoice: 'فاتورة',
+  printInvoice: 'طباعة الفاتورة',
+  billTo: 'فاتورة إلى',
+  details: 'التفاصيل',
+  subtotal: 'المجموع الفرعي',
+  discount: 'خصم',
+  thankYouMessage: 'شكراً لتعاملكم معنا!',
 };
 
 export default ar;

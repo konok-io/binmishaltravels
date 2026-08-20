@@ -446,6 +446,15 @@ export const bn = {
   // Footer
   copyright: '© ২০২৬ বিন মিশাল ট্রাভেলস',
   allRightsReserved: 'সর্বস্বত্ব সংরক্ষিত',
+
+  // Invoice
+  invoice: 'চালান',
+  printInvoice: 'চালান প্রিন্ট করুন',
+  billTo: 'বিল প্রাপক',
+  details: 'বিবরণ',
+  subtotal: 'সাবটোটাল',
+  discount: 'ছাড়',
+  thankYouMessage: 'আপনার ব্যবসায় সন্তুষ্ট হওয়ায় ধন্যবাদ!',
 };
 
 export default bn;

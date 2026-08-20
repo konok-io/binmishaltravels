@@ -4,6 +4,7 @@ import { useI18n } from '@/i18n';
 import { useTransactionStore, useCustomerStore } from '@/store';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
+import { Invoice } from '@/pages/invoice';
 
 export const TransactionView: React.FC = () => {
   const { t, language } = useI18n();
@@ -13,6 +14,7 @@ export const TransactionView: React.FC = () => {
   const { customers } = useCustomerStore();
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showInvoice, setShowInvoice] = useState(false);
 
   // Find transaction by ID
   const transaction = useMemo(() => {
@@ -114,6 +116,12 @@ export const TransactionView: React.FC = () => {
           </div>
         </div>
         <div className="flex gap-3">
+          <Button variant="outline" onClick={() => setShowInvoice(true)}>
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            {t('printInvoice')}
+          </Button>
           <Button variant="outline" onClick={() => navigate(`/transaction/${transaction.id}/edit`)}>
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -297,6 +305,15 @@ export const TransactionView: React.FC = () => {
                 <Button className="bg-red-600 hover:bg-red-700" onClick={handleDelete}>{t('delete')}</Button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Invoice Modal */}
+      {showInvoice && transaction && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+            <Invoice transaction={transaction} onClose={() => setShowInvoice(false)} />
           </div>
         </div>
       )}
