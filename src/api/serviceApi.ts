@@ -3,10 +3,14 @@ import type { Service } from '@/types';
 
 export interface CreateServiceDto {
   name: string;
+  nameBn?: string;
+  nameAr?: string;
   code: string;
   category: string;
+  icon?: string;
   description?: string;
-  basePrice: number;
+  link?: string;
+  basePrice?: number;
   isActive: boolean;
 }
 

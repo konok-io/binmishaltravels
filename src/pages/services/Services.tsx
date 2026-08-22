@@ -23,9 +23,14 @@ export const Services: React.FC = () => {
   const { addTransaction } = useTransactionStore();
   const { addCustomer, searchCustomers } = useCustomerStore();
   const { branches } = useBranchStore();
-  const { services, addService } = useServiceStore();
+  const { services, addService, fetchServices } = useServiceStore();
 
   const isSuperAdmin = user?.role === 'super_admin';
+
+  // Fetch services from API on mount
+  React.useEffect(() => {
+    fetchServices();
+  }, [fetchServices]);
 
   // Tab state: 'transaction' or 'government'
   const [activeTab, setActiveTab] = useState<'transaction' | 'government'>('transaction');

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { Service, ServiceCategory } from '@/types';
 import { dataProvider } from '@/api/dataProvider';
+import type { CreateServiceDto } from '@/api/serviceApi';
 
 interface ServiceState {
   services: Service[];
@@ -35,10 +36,37 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
 
   setServices: (services) => set({ services }),
 
-  addService: (service) => {
-    set((state) => ({
-      services: [...state.services, service],
-    }));
+  addService: async (service) => {
+    set({ isLoading: true, error: null });
+    try {
+      // Convert to DTO format for API
+      const serviceDto: CreateServiceDto = {
+        name: service.name,
+        nameBn: service.nameBn,
+        nameAr: service.nameAr,
+        code: service.code,
+        category: service.category,
+        icon: service.icon,
+        description: service.description,
+        link: service.link,
+        isActive: service.isActive,
+      };
+      
+      // Save to API
+      const savedService = await dataProvider.services.create(serviceDto);
+      // Update local state with the saved service (which has the correct ID from DB)
+      set((state) => ({
+        services: [...state.services.filter(s => s.id !== service.id), savedService],
+        isLoading: false,
+      }));
+    } catch (error: any) {
+      // If API fails, still keep in local state
+      set((state) => ({
+        services: [...state.services, service],
+        isLoading: false,
+        error: error.message,
+      }));
+    }
   },
 
   updateService: (id, data) => {
