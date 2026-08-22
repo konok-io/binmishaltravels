@@ -10,6 +10,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'robots.txt'],
       manifest: {
+        filename: 'manifest.json',
         name: 'বিন মিশাল ট্রাভেলস',
         short_name: 'বিন মিশাল',
         description: 'Bin Mishal Travels Management System - Offline Support',
