@@ -1,6 +1,6 @@
 // Data provider that uses either mock or real API based on environment
-import { USE_MOCK_API, mockApi, transactionApi, customerApi, serviceApi, branchApi } from './index';
-import type { ServiceTransaction, Customer, Service, Branch } from '@/types';
+import { USE_MOCK_API, mockApi, transactionApi, customerApi, serviceApi, branchApi, userApi } from './index';
+import type { ServiceTransaction, Customer, Service, Branch, User } from '@/types';
 
 export const dataProvider = {
   transactions: {
@@ -184,6 +184,37 @@ export const dataProvider = {
         return;
       }
       await branchApi.delete(id);
+    },
+  },
+
+  users: {
+    async getAll(params?: { branchId?: string }): Promise<User[]> {
+      const response = await userApi.getAll(params);
+      return response.data;
+    },
+
+    async getById(id: string): Promise<User> {
+      const response = await userApi.getById(id);
+      return response.data;
+    },
+
+    async create(data: any): Promise<User> {
+      const response = await userApi.create(data);
+      return response.data;
+    },
+
+    async update(id: string, data: any): Promise<User> {
+      const response = await userApi.update(id, data);
+      return response.data;
+    },
+
+    async delete(id: string): Promise<void> {
+      await userApi.delete(id);
+    },
+
+    async toggleStatus(id: string): Promise<User> {
+      const response = await userApi.toggleStatus(id);
+      return response.data;
     },
   },
 };

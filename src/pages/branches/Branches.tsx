@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '@/i18n';
 import { useAuthStore, useBranchStore, useTransactionStore, useCustomerStore } from '@/store';
+import { dataProvider } from '@/api/dataProvider';
 import { Card, CardContent } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
@@ -11,9 +12,16 @@ export const Branches: React.FC = () => {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { branches, addBranch, updateBranch, deleteBranch } = useBranchStore();
-  const { transactions } = useTransactionStore();
-  const { customers } = useCustomerStore();
+  const { branches, fetchBranches, addBranch, updateBranch, deleteBranch } = useBranchStore();
+  const { transactions, fetchTransactions } = useTransactionStore();
+  const { customers, fetchCustomers } = useCustomerStore();
+
+  // Fetch data on mount
+  useEffect(() => {
+    fetchBranches();
+    fetchTransactions();
+    fetchCustomers();
+  }, [fetchBranches, fetchTransactions, fetchCustomers]);
 
   const isSuperAdmin = user?.role === 'super_admin';
 
@@ -92,49 +100,57 @@ export const Branches: React.FC = () => {
   };
 
   // Handle add
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!validateForm()) return;
-    addBranch({
-      id: `BR-${Date.now()}`,
-      name: formData.name,
-      code: formData.code,
-      phone: formData.phone || undefined,
-      email: formData.email || undefined,
-      address: formData.address || undefined,
-      managerName: formData.managerName || undefined,
-      managerPhone: formData.managerPhone || undefined,
-      isActive: true,
-      isHeadOffice: false,
-      status: 'active',
-      createdAt: new Date().toISOString(),
-    });
-    setShowAddModal(false);
-    resetForm();
+    try {
+      const newBranch = await dataProvider.branches.create({
+        name: formData.name,
+        code: formData.code,
+        phone: formData.phone || undefined,
+        email: formData.email || undefined,
+        address: formData.address || undefined,
+        manager: formData.managerName || undefined,
+        isActive: true,
+      });
+      addBranch(newBranch);
+      setShowAddModal(false);
+      resetForm();
+    } catch (error) {
+      console.error('Failed to create branch:', error);
+    }
   };
 
   // Handle edit
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (!selectedBranch || !validateForm()) return;
-    updateBranch(selectedBranch.id, {
-      name: formData.name,
-      code: formData.code,
-      phone: formData.phone || undefined,
-      email: formData.email || undefined,
-      address: formData.address || undefined,
-      managerName: formData.managerName || undefined,
-      managerPhone: formData.managerPhone || undefined,
-    });
-    setShowEditModal(false);
-    setSelectedBranch(null);
-    resetForm();
+    try {
+      const updatedBranch = await dataProvider.branches.update(selectedBranch.id, {
+        name: formData.name,
+        code: formData.code,
+        phone: formData.phone || undefined,
+        email: formData.email || undefined,
+        address: formData.address || undefined,
+        manager: formData.managerName || undefined,
+      });
+      updateBranch(selectedBranch.id, updatedBranch);
+      setShowEditModal(false);
+      setSelectedBranch(null);
+      resetForm();
+    } catch (error) {
+      console.error('Failed to update branch:', error);
+    }
   };
 
   // Handle delete
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedBranch) {
-      deleteBranch(selectedBranch.id);
-      setShowDeleteModal(false);
-      setSelectedBranch(null);
+      try {
+        await deleteBranch(selectedBranch.id);
+        setShowDeleteModal(false);
+        setSelectedBranch(null);
+      } catch (error) {
+        console.error('Failed to delete branch:', error);
+      }
     }
   };
 

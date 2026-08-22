@@ -8,6 +8,8 @@ export { serviceApi } from './serviceApi';
 export type { CreateServiceDto, UpdateServiceDto } from './serviceApi';
 export { branchApi } from './branchApi';
 export type { CreateBranchDto, UpdateBranchDto } from './branchApi';
+export { userApi } from './userApi';
+export type { CreateUserDto, UpdateUserDto } from './userApi';
 export { mockApi } from './mock';
 
 // Determine if we should use mock API

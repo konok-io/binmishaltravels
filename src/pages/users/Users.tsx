@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '@/i18n';
 import { useAuthStore, useUserStore, useBranchStore } from '@/store';
+import { dataProvider } from '@/api/dataProvider';
 import { Card, CardContent } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
@@ -11,8 +12,14 @@ export const Users: React.FC = () => {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { user: currentUser } = useAuthStore();
-  const { users, addUser, updateUser, deleteUser } = useUserStore();
-  const { branches } = useBranchStore();
+  const { users, addUser, updateUser, deleteUser, fetchUsers } = useUserStore();
+  const { branches, fetchBranches } = useBranchStore();
+
+  // Fetch data on mount
+  useEffect(() => {
+    fetchUsers();
+    fetchBranches();
+  }, [fetchUsers, fetchBranches]);
 
   const isSuperAdmin = currentUser?.role === 'super_admin';
 
@@ -78,12 +85,6 @@ export const Users: React.FC = () => {
     staff: users.filter((u: User) => u.role === 'branch_staff').length,
   };
 
-  // Get branch name
-  const getBranchName = (branchId: string) => {
-    const branch = branches.find(b => b.id === branchId);
-    return branch?.name || branchId;
-  };
-
   // Get role badge color
   const getRoleBadge = (role: UserRole) => {
     switch (role) {
@@ -135,49 +136,55 @@ export const Users: React.FC = () => {
   };
 
   // Handle add
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!validateForm()) return;
-    const newUser: User = {
-      id: `USR-${Date.now()}`,
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone || undefined,
-      role: formData.role,
-      branchId: formData.role === 'super_admin' ? '' : formData.branchId,
-      branchName: formData.role === 'super_admin' ? '' : getBranchName(formData.branchId),
-      isActive: true,
-      createdAt: new Date().toISOString(),
-    };
-    addUser(newUser, formData.password);
-    setShowAddModal(false);
-    resetForm();
+    try {
+      const newUser = await dataProvider.users.create({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone || undefined,
+        role: formData.role,
+        branchId: formData.role === 'super_admin' ? undefined : formData.branchId || undefined,
+      });
+      addUser(newUser);
+      setShowAddModal(false);
+      resetForm();
+    } catch (error) {
+      console.error('Failed to create user:', error);
+    }
   };
 
   // Handle edit
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (!selectedUser || !validateForm(true)) return;
-    updateUser(selectedUser.id, {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone || undefined,
-      role: formData.role,
-      branchId: formData.role === 'super_admin' ? '' : formData.branchId,
-      branchName: formData.role === 'super_admin' ? '' : getBranchName(formData.branchId),
-    });
-    if (formData.password) {
-      // Password update would go here in a real app
+    try {
+      const updatedUser = await dataProvider.users.update(selectedUser.id, {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        role: formData.role,
+        branchId: formData.role === 'super_admin' ? undefined : formData.branchId || undefined,
+      });
+      updateUser(selectedUser.id, updatedUser);
+      setShowEditModal(false);
+      setSelectedUser(null);
+      resetForm();
+    } catch (error) {
+      console.error('Failed to update user:', error);
     }
-    setShowEditModal(false);
-    setSelectedUser(null);
-    resetForm();
   };
 
   // Handle delete
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedUser) {
-      deleteUser(selectedUser.id);
-      setShowDeleteModal(false);
-      setSelectedUser(null);
+      try {
+        await deleteUser(selectedUser.id);
+        setShowDeleteModal(false);
+        setSelectedUser(null);
+      } catch (error) {
+        console.error('Failed to delete user:', error);
+      }
     }
   };
 
@@ -197,8 +204,13 @@ export const Users: React.FC = () => {
   };
 
   // Toggle user active status
-  const toggleUserStatus = (user: User) => {
-    updateUser(user.id, { isActive: !user.isActive });
+  const toggleUserStatus = async (user: User) => {
+    try {
+      const updatedUser = await dataProvider.users.toggleStatus(user.id);
+      updateUser(user.id, { isActive: updatedUser.isActive });
+    } catch (error) {
+      console.error('Failed to toggle user status:', error);
+    }
   };
 
   return (
