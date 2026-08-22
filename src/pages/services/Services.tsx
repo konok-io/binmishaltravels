@@ -20,8 +20,8 @@ export const Services: React.FC = () => {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { addTransaction } = useTransactionStore();
-  const { addCustomer, searchCustomers } = useCustomerStore();
+  const { createTransaction } = useTransactionStore();
+  const { createCustomer, searchCustomers, fetchCustomers } = useCustomerStore();
   const { branches } = useBranchStore();
   const { services, addService, fetchServices } = useServiceStore();
 
@@ -30,7 +30,8 @@ export const Services: React.FC = () => {
   // Fetch services from API on mount
   React.useEffect(() => {
     fetchServices();
-  }, [fetchServices]);
+    fetchCustomers();
+  }, [fetchServices, fetchCustomers]);
 
   // Tab state: 'transaction' or 'government'
   const [activeTab, setActiveTab] = useState<'transaction' | 'government'>('transaction');
@@ -124,11 +125,11 @@ export const Services: React.FC = () => {
   };
 
   // Handle new customer creation
-  const handleCreateCustomer = () => {
+  const handleCreateCustomer = async () => {
     if (!newCustomer.name || !newCustomer.phone) return;
 
-    const customer: Customer = {
-      id: `C-${Date.now()}`,
+    const now = new Date().toISOString();
+    const customerData = {
       branchId: selectedBranchId || user?.branchId || '',
       branchName: branches.find(b => b.id === selectedBranchId)?.name || '',
       name: newCustomer.name,
@@ -140,22 +141,26 @@ export const Services: React.FC = () => {
       address: newCustomer.address,
       totalTransactions: 0,
       totalSpent: 0,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: now,
+      updatedAt: now,
     };
 
-    addCustomer(customer);
-    setSelectedCustomer(customer);
-    setShowNewCustomer(false);
-    setNewCustomer({
-      name: '',
-      phone: '',
-      email: '',
-      passportNumber: '',
-      iqamaNumber: '',
-      nationality: '',
-      address: '',
-    });
+    try {
+      const newCustomerData = await createCustomer(customerData);
+      setSelectedCustomer(newCustomerData);
+      setShowNewCustomer(false);
+      setNewCustomer({
+        name: '',
+        phone: '',
+        email: '',
+        passportNumber: '',
+        iqamaNumber: '',
+        nationality: '',
+        address: '',
+      });
+    } catch (error) {
+      console.error('Failed to create customer:', error);
+    }
   };
 
   // Handle form submission
@@ -195,7 +200,7 @@ export const Services: React.FC = () => {
       isSynced: true,
     };
 
-    addTransaction(transaction);
+    createTransaction(transaction);
     navigate('/transactions');
   };
 
