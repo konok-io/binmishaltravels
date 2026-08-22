@@ -2,6 +2,17 @@
 import { USE_MOCK_API, mockApi, transactionApi, customerApi, serviceApi, branchApi, userApi } from './index';
 import type { ServiceTransaction, Customer, Service, Branch, User } from '@/types';
 
+// Helper to extract data from nested API response
+const extractData = <T>(response: any, isList: boolean = false): T => {
+  // Server returns: { success: true, data: [...] }
+  // apiClient wraps as: { data: { success: true, data: [...] }, success: true }
+  // So response.data.data = the actual data
+  if (isList) {
+    return response.data?.data || [];
+  }
+  return response.data?.data || response.data;
+};
+
 export const dataProvider = {
   transactions: {
     async getAll(params?: { branchId?: string }): Promise<ServiceTransaction[]> {
@@ -10,7 +21,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await transactionApi.getAll(params);
-      return response.data;
+      return extractData<ServiceTransaction[]>(response, true);
     },
 
     async getById(id: string): Promise<ServiceTransaction> {
@@ -19,7 +30,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await transactionApi.getById(id);
-      return response.data;
+      return extractData<ServiceTransaction>(response);
     },
 
     async create(data: any): Promise<ServiceTransaction> {
@@ -28,7 +39,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await transactionApi.create(data);
-      return response.data;
+      return extractData<ServiceTransaction>(response);
     },
 
     async update(id: string, data: any): Promise<ServiceTransaction> {
@@ -37,7 +48,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await transactionApi.update(id, data);
-      return response.data;
+      return extractData<ServiceTransaction>(response);
     },
 
     async delete(id: string): Promise<void> {
@@ -56,7 +67,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await customerApi.getAll(params);
-      return response.data;
+      return extractData<Customer[]>(response, true);
     },
 
     async getById(id: string): Promise<Customer> {
@@ -65,7 +76,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await customerApi.getById(id);
-      return response.data;
+      return extractData<Customer>(response);
     },
 
     async create(data: any): Promise<Customer> {
@@ -74,7 +85,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await customerApi.create(data);
-      return response.data;
+      return extractData<Customer>(response);
     },
 
     async update(id: string, data: any): Promise<Customer> {
@@ -83,7 +94,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await customerApi.update(id, data);
-      return response.data;
+      return extractData<Customer>(response);
     },
 
     async delete(id: string): Promise<void> {
@@ -102,7 +113,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await serviceApi.getAll();
-      return response.data;
+      return extractData<Service[]>(response, true);
     },
 
     async getById(id: string): Promise<Service> {
@@ -111,7 +122,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await serviceApi.getById(id);
-      return response.data;
+      return extractData<Service>(response);
     },
 
     async create(data: any): Promise<Service> {
@@ -120,7 +131,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await serviceApi.create(data);
-      return response.data;
+      return extractData<Service>(response);
     },
 
     async update(id: string, data: any): Promise<Service> {
@@ -129,7 +140,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await serviceApi.update(id, data);
-      return response.data;
+      return extractData<Service>(response);
     },
 
     async delete(id: string): Promise<void> {
@@ -148,7 +159,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await branchApi.getAll();
-      return response.data;
+      return extractData<Branch[]>(response, true);
     },
 
     async getById(id: string): Promise<Branch> {
@@ -157,7 +168,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await branchApi.getById(id);
-      return response.data;
+      return extractData<Branch>(response);
     },
 
     async create(data: any): Promise<Branch> {
@@ -166,7 +177,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await branchApi.create(data);
-      return response.data;
+      return extractData<Branch>(response);
     },
 
     async update(id: string, data: any): Promise<Branch> {
@@ -175,7 +186,7 @@ export const dataProvider = {
         return response.data;
       }
       const response = await branchApi.update(id, data);
-      return response.data;
+      return extractData<Branch>(response);
     },
 
     async delete(id: string): Promise<void> {
@@ -190,22 +201,22 @@ export const dataProvider = {
   users: {
     async getAll(params?: { branchId?: string }): Promise<User[]> {
       const response = await userApi.getAll(params);
-      return response.data;
+      return extractData<User[]>(response, true);
     },
 
     async getById(id: string): Promise<User> {
       const response = await userApi.getById(id);
-      return response.data;
+      return extractData<User>(response);
     },
 
     async create(data: any): Promise<User> {
       const response = await userApi.create(data);
-      return response.data;
+      return extractData<User>(response);
     },
 
     async update(id: string, data: any): Promise<User> {
       const response = await userApi.update(id, data);
-      return response.data;
+      return extractData<User>(response);
     },
 
     async delete(id: string): Promise<void> {
@@ -214,7 +225,7 @@ export const dataProvider = {
 
     async toggleStatus(id: string): Promise<User> {
       const response = await userApi.toggleStatus(id);
-      return response.data;
+      return extractData<User>(response);
     },
   },
 };
