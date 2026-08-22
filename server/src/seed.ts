@@ -12,8 +12,27 @@ const seedData = async () => {
     await Service.deleteMany({});
     console.log('✓ Cleared all existing data\n');
 
+    // Create only Super Admin
+    const superAdmin = new User({
+      email: 'admin@binmishal.com',
+      password: 'admin123',
+      name: 'Super Admin',
+      nameAr: 'مدير سوبر',
+      phone: '+966500000000',
+      role: 'super_admin',
+      permissions: [
+        { resource: '*', actions: ['create', 'read', 'update', 'delete'] }
+      ],
+      isActive: true
+    });
+
+    await superAdmin.save();
+    console.log('✓ Created Super Admin: admin@binmishal.com / admin123\n');
+
     console.log('✅ Seed completed successfully!');
-    console.log('\n📋 No demo data created. Please create users from the admin panel.\n');
+    console.log('\n📋 Super Admin created successfully!');
+    console.log('   Email: admin@binmishal.com');
+    console.log('   Password: admin123\n');
 
     process.exit(0);
   } catch (error) {

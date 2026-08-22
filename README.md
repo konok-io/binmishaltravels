@@ -54,13 +54,11 @@ npm run build
 npm run preview
 ```
 
-## 🔐 Demo Credentials
+## 🔐 Default Credentials
 
 | Role | Email | Password |
 |------|-------|----------|
-| Super Admin | admin@binmishal.com | demo123 |
-| Branch Manager | mecca1@binmishal.com | demo123 |
-| Branch Staff | jeddah1@binmishal.com | demo123 |
+| Super Admin | admin@binmishal.com | admin123 |
 
 ## 🛠️ Tech Stack
 
