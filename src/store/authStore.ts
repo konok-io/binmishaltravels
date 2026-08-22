@@ -19,20 +19,20 @@ interface AuthState {
   clearError: () => void;
 }
 
-// Session storage helpers
-const SESSION_KEY = 'binmishal_auth';
+// Local storage helpers for persistent login
+const STORAGE_KEY = 'binmishal_auth';
 
-const saveToSession = (data: { user: User | null; token: string | null }) => {
+const saveToStorage = (data: { user: User | null; token: string | null }) => {
   try {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
-    // sessionStorage not available
+    // localStorage not available
   }
 };
 
-const loadFromSession = () => {
+const loadFromStorage = () => {
   try {
-    const stored = sessionStorage.getItem(SESSION_KEY);
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       return JSON.parse(stored);
     }
@@ -42,27 +42,27 @@ const loadFromSession = () => {
   return { user: null, token: null };
 };
 
-const clearSession = () => {
+const clearStorage = () => {
   try {
-    sessionStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(STORAGE_KEY);
   } catch (e) {
     // ignore
   }
 };
 
-// Load initial state from session
-const initialSession = loadFromSession();
+// Load initial state from localStorage
+const initialState = loadFromStorage();
 
 export const useAuthStore = create<AuthState>()((set) => ({
-  user: initialSession.user,
+  user: initialState.user,
   currentBranch: null,
-  token: initialSession.token,
-  isAuthenticated: !!initialSession.token && !!initialSession.user,
+  token: initialState.token,
+  isAuthenticated: !!initialState.token && !!initialState.user,
   isLoading: false,
   error: null,
 
   setAuth: (user, branch, token) => {
-    saveToSession({ user, token });
+    saveToStorage({ user, token });
     set({
       user,
       currentBranch: branch,
@@ -81,7 +81,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       
       if (response.success) {
         const { user, token } = response.data;
-        saveToSession({ user, token });
+        saveToStorage({ user, token });
         set({
           user,
           currentBranch: null,
@@ -108,7 +108,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   },
 
   logout: () => {
-    clearSession();
+    clearStorage();
     set({
       user: null,
       currentBranch: null,
@@ -120,11 +120,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
   },
 
   checkAuth: async () => {
-    const session = loadFromSession();
-    if (session.token && session.user) {
+    const stored = loadFromStorage();
+    if (stored.token && stored.user) {
       set({ 
-        token: session.token, 
-        user: session.user,
+        token: stored.token, 
+        user: stored.user,
         isAuthenticated: true, 
         isLoading: false 
       });

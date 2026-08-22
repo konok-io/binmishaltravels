@@ -34,16 +34,16 @@ const AppRoutes: React.FC = () => {
   const [isInitialized, setIsInitialized] = React.useState(false);
   
   React.useEffect(() => {
-    // Check sessionStorage on mount
-    const sessionData = sessionStorage.getItem('binmishal_auth');
-    if (sessionData) {
+    // Check localStorage on mount
+    const storedData = localStorage.getItem('binmishal_auth');
+    if (storedData) {
       try {
-        const { token, user } = JSON.parse(sessionData);
+        const { token, user } = JSON.parse(storedData);
         if (token && user) {
           useAuthStore.setState({ token, user, isAuthenticated: true });
         }
       } catch (e) {
-        // invalid session data
+        // invalid stored data
       }
     }
     setIsInitialized(true);

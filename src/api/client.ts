@@ -23,7 +23,7 @@ class ApiClient {
 
   private getToken(): string | null {
     try {
-      const stored = sessionStorage.getItem('binmishal_auth');
+      const stored = localStorage.getItem('binmishal_auth');
       if (stored) {
         const parsed = JSON.parse(stored);
         return parsed.token || null;
