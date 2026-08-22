@@ -53,7 +53,7 @@ const clearSession = () => {
 // Load initial state from session
 const initialSession = loadFromSession();
 
-export const useAuthStore = create<AuthState>()((set, get) => ({
+export const useAuthStore = create<AuthState>()((set) => ({
   user: initialSession.user,
   currentBranch: null,
   token: initialSession.token,
@@ -120,9 +120,14 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
 
   checkAuth: async () => {
-    const { token } = get();
-    if (token) {
-      set({ isLoading: false, isAuthenticated: true });
+    const session = loadFromSession();
+    if (session.token && session.user) {
+      set({ 
+        token: session.token, 
+        user: session.user,
+        isAuthenticated: true, 
+        isLoading: false 
+      });
     } else {
       set({ isLoading: false, isAuthenticated: false });
     }
