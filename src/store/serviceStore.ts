@@ -28,17 +28,7 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const data = await dataProvider.services.getAll();
-      
-      // Get government services from localStorage
-      const govServices = JSON.parse(localStorage.getItem('govServices') || '[]');
-      
-      // Merge API services with localStorage government services
-      // Avoid duplicates by checking IDs
-      const existingIds = new Set(data.map(s => s.id));
-      const newGovServices = govServices.filter((g: Service) => !existingIds.has(g.id));
-      const allServices = [...data, ...newGovServices];
-      
-      set({ services: allServices, isLoading: false });
+      set({ services: data, isLoading: false });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
     }
@@ -47,20 +37,9 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
   setServices: (services) => set({ services }),
 
   addService: async (service) => {
-    // Save to localStorage immediately for government services (those with link)
-    if (service.link) {
-      const govServices = JSON.parse(localStorage.getItem('govServices') || '[]');
-      govServices.push(service);
-      localStorage.setItem('govServices', JSON.stringify(govServices));
-    }
-    
-    // Add to local state
-    set((state) => ({
-      services: [...state.services, service],
-    }));
+    set({ isLoading: true, error: null });
     
     try {
-      // Save to API
       const serviceDto: CreateServiceDto = {
         name: service.name,
         nameBn: service.nameBn,
@@ -73,9 +52,15 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
         isActive: service.isActive,
       };
       
-      await dataProvider.services.create(serviceDto);
+      const savedService = await dataProvider.services.create(serviceDto);
+      
+      // Add to local state with the saved service (has DB _id)
+      set((state) => ({
+        services: [...state.services, savedService],
+        isLoading: false,
+      }));
     } catch (error: any) {
-      // Error হলেও local state এ service থাকবে
+      set({ error: error.message, isLoading: false });
     }
   },
 

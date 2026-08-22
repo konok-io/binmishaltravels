@@ -18,6 +18,7 @@ export interface IService extends Document {
   category: ServiceCategory;
   icon: string;
   description?: string;
+  link?: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -36,6 +37,7 @@ const ServiceSchema = new Schema<IService>(
     },
     icon: { type: String, default: '📋' },
     description: { type: String },
+    link: { type: String },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
