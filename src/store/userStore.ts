@@ -24,7 +24,11 @@ export const useUserStore = create<UserState>()((set, get) => ({
   fetchUsers: async (branchId?: string) => {
     set({ isLoading: true, error: null });
     try {
-      const data = await dataProvider.users.getAll({ branchId });
+      const params: { branchId?: string } = {};
+      if (branchId) {
+        params.branchId = branchId;
+      }
+      const data = await dataProvider.users.getAll(params);
       set({ users: data, isLoading: false });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });

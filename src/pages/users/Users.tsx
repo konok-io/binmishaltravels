@@ -23,9 +23,6 @@ export const Users: React.FC = () => {
 
   const isSuperAdmin = currentUser?.role === 'super_admin';
 
-  console.log('👤 currentUser:', currentUser);
-  console.log('👤 currentUser.role:', currentUser?.role);
-
   // Access check for non-super-admin
   if (!isSuperAdmin) {
     return (

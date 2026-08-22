@@ -42,7 +42,7 @@ const AppRoutes: React.FC = () => {
         if (token && user) {
           useAuthStore.setState({ token, user, isAuthenticated: true });
         }
-      } catch (e) {
+      } catch {
         // invalid stored data
       }
     }

@@ -24,11 +24,9 @@ const STORAGE_KEY = 'binmishal_auth';
 
 const saveToStorage = (data: { user: User | null; token: string | null }) => {
   try {
-    console.log('💾 saveToStorage:', data);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    console.log('💾 Saved to localStorage');
   } catch (e) {
-    console.error('💾 saveToStorage - error:', e);
+    // localStorage not available
   }
 };
 
@@ -82,14 +80,10 @@ export const useAuthStore = create<AuthState>()((set) => ({
       const response = await apiClient.post<{ user: User; token: string }>('/auth/login', credentials);
       
       if (response.success) {
-        console.log('🔑 Login response:', response);
-        console.log('🔑 Login response.data:', response.data);
         // Server returns: { success: true, data: { user, token } }
         // apiClient wraps as: { data: { success: true, data: { user, token } }, success: true }
-        // So response.data.data = { user, token }
         const loginData = (response.data as any).data;
         const { user, token } = loginData;
-        console.log('🔑 User:', user, 'Token:', token);
         saveToStorage({ user, token });
         set({
           user,

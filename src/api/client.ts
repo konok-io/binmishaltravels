@@ -24,15 +24,12 @@ class ApiClient {
   private getToken(): string | null {
     try {
       const stored = localStorage.getItem('binmishal_auth');
-      console.log('🔍 getToken - stored:', stored);
       if (stored) {
         const parsed = JSON.parse(stored);
-        console.log('🔍 getToken - parsed:', parsed);
-        console.log('🔍 getToken - token:', parsed.token);
         return parsed.token || null;
       }
-    } catch (e) {
-      console.error('🔍 getToken - error:', e);
+    } catch {
+      // ignore
     }
     return null;
   }
