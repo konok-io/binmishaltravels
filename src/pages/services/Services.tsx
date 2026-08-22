@@ -47,11 +47,15 @@ export const Services: React.FC = () => {
 
   // Filter government services (services with links)
   const governmentServices = useMemo(() => {
-    return services.filter(s => s.link);
+    console.log('🔵 governmentServices filtered, total services:', services.length);
+    const filtered = services.filter(s => s.link);
+    console.log('🔵 governmentServices:', filtered.length, 'found');
+    return filtered;
   }, [services]);
 
   // Handle add new government service
   const handleAddGovernmentService = async () => {
+    console.log('🟢 handleAddGovernmentService called');
     if (!newService.name || !newService.link) return;
 
     const service: Service = {
@@ -67,10 +71,13 @@ export const Services: React.FC = () => {
       isActive: true,
     };
 
+    console.log('🟢 Creating service:', service);
     await addService(service);
     
     // Refresh services from API to ensure consistency
+    console.log('🟢 Calling fetchServices...');
     await fetchServices();
+    console.log('🟢 fetchServices completed');
     
     setShowAddModal(false);
     setNewService({ name: '', icon: '🔗', description: '', link: '' });

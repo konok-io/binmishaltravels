@@ -25,11 +25,14 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
   error: null,
 
   fetchServices: async () => {
+    console.log('🔵 fetchServices called');
     set({ isLoading: true, error: null });
     try {
       const data = await dataProvider.services.getAll();
+      console.log('🔵 fetchServices got data:', data.length, 'services');
       set({ services: data, isLoading: false });
     } catch (error: any) {
+      console.error('🔴 fetchServices error:', error);
       set({ error: error.message, isLoading: false });
     }
   },
@@ -37,10 +40,15 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
   setServices: (services) => set({ services }),
 
   addService: async (service) => {
+    console.log('🔵 addService called with:', service);
+    
     // First add to local state immediately
-    set((state) => ({
-      services: [...state.services, service],
-    }));
+    set((state) => {
+      console.log('🔵 Adding to local state, current services:', state.services.length);
+      return {
+        services: [...state.services, service],
+      };
+    });
     
     try {
       // Then save to API
@@ -56,7 +64,9 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
         isActive: service.isActive,
       };
       
+      console.log('🔵 Saving to API with DTO:', serviceDto);
       const savedService = await dataProvider.services.create(serviceDto);
+      console.log('🔵 Saved service from API:', savedService);
       
       // Update with saved service (has DB ID)
       set((state) => ({
@@ -65,8 +75,8 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
         ),
       }));
     } catch (error: any) {
+      console.error('🔴 Failed to save service to API:', error);
       set({ error: error.message });
-      console.error('Failed to save service to API:', error);
     }
   },
 
