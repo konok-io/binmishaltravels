@@ -1,6 +1,6 @@
 # বিন মিশাল ট্রাভেলস ম্যানেজমেন্ট সিস্টেম
 
-Bin Mishal Travels Management System - A comprehensive offline-first multi-branch travel management application.
+Bin Mishal Travels Management System - A comprehensive multi-branch travel management application.
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![React](https://img.shields.io/badge/React-18.3-green)
@@ -32,11 +32,6 @@ Bin Mishal Travels Management System - A comprehensive offline-first multi-branc
 - **Super Admin**: Full access to all branches and reports
 - **Branch Manager**: Manage their assigned branch
 - **Branch Staff**: Service entry and customer management
-
-### Offline-First PWA
-- Works without internet connection
-- Automatic sync when online
-- Progressive Web App (installable on mobile)
 
 ## 🚀 Quick Start
 
