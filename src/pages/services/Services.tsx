@@ -68,6 +68,10 @@ export const Services: React.FC = () => {
 
   // Selected service type
   const [selectedType, setSelectedType] = useState<ServiceCategory>('air_ticket');
+  
+  // Selected government service (when clicking on a government service)
+  const [selectedGovServiceId, setSelectedGovServiceId] = useState<string | null>(null);
+  const selectedGovService = governmentServices.find(s => s.id === selectedGovServiceId);
 
   // Customer states
   const [showNewCustomer, setShowNewCustomer] = useState(false);
@@ -155,13 +159,18 @@ export const Services: React.FC = () => {
 
     const branch = branches.find(b => b.id === (selectedBranchId || user?.branchId));
 
+    // Determine service info (government service or regular service)
+    const serviceId = selectedGovService ? selectedGovService.id : `SVC-${selectedType}`;
+    const serviceCode = selectedGovService ? selectedGovService.code : selectedType;
+    const serviceName = selectedGovService ? selectedGovService.name : t(selectedType === 'air_ticket' ? 'airTicket' : selectedType);
+
     const transaction = {
       id: `TXN-${Date.now()}`,
       branchId: selectedBranchId || user?.branchId || '',
       branchName: branch?.name || '',
-      serviceId: `SVC-${selectedType}`,
-      serviceCode: selectedType,
-      serviceName: t(selectedType === 'air_ticket' ? 'airTicket' : selectedType),
+      serviceId: serviceId,
+      serviceCode: serviceCode,
+      serviceName: serviceName,
       customerId: selectedCustomer.id,
       customerName: selectedCustomer.name,
       customerPhone: selectedCustomer.phone,
@@ -441,7 +450,10 @@ export const Services: React.FC = () => {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
-            onClick={() => setActiveTab('transaction')}
+            onClick={() => {
+              setActiveTab('transaction');
+              setSelectedGovServiceId(null);
+            }}
             className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${
               activeTab === 'transaction'
                 ? 'border-primary-500 text-primary-600'
@@ -451,7 +463,10 @@ export const Services: React.FC = () => {
             {t('services')}
           </button>
           <button
-            onClick={() => setActiveTab('government')}
+            onClick={() => {
+              setActiveTab('government');
+              setSelectedGovServiceId(null);
+            }}
             className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${
               activeTab === 'government'
                 ? 'border-primary-500 text-primary-600'
@@ -463,8 +478,8 @@ export const Services: React.FC = () => {
         </nav>
       </div>
 
-      {/* Government Services Tab */}
-      {activeTab === 'government' && (
+      {/* Government Services Tab - Manage Services */}
+      {activeTab === 'government' && !selectedGovServiceId && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">{t('governmentServices')}</h2>
@@ -584,12 +599,13 @@ export const Services: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-2">
             {SERVICE_TYPES.map((type) => {
-              const isSelected = selectedType === type.code;
+              const isSelected = selectedType === type.code && !selectedGovServiceId;
               return (
                 <button
                   key={type.code}
                   onClick={() => {
                     setSelectedType(type.code);
+                    setSelectedGovServiceId(null);
                     setDetails({});
                   }}
                   className={`w-full flex items-center p-3 rounded-lg transition-all ${
@@ -601,6 +617,39 @@ export const Services: React.FC = () => {
                   <span className="text-2xl mr-3">{type.icon}</span>
                   <span className={`font-medium ${isSelected ? '' : 'text-gray-700'}`}>
                     {getServiceName(type.code)}
+                  </span>
+                </button>
+              );
+            })}
+            
+            {/* Divider */}
+            {governmentServices.length > 0 && (
+              <>
+                <div className="border-t border-gray-200 my-2" />
+                <p className="text-xs text-gray-500 px-3 py-1">{t('governmentServices')}</p>
+              </>
+            )}
+            
+            {/* Government Services in sidebar */}
+            {governmentServices.map((service) => {
+              const isSelected = selectedGovServiceId === service.id;
+              return (
+                <button
+                  key={service.id}
+                  onClick={() => {
+                    setSelectedGovServiceId(service.id);
+                    setSelectedType('air_ticket');
+                    setDetails({});
+                  }}
+                  className={`w-full flex items-center p-3 rounded-lg transition-all ${
+                    isSelected
+                      ? 'bg-primary-100 border-2 border-primary-500'
+                      : 'bg-gray-50 hover:bg-gray-100 border-2 border-transparent'
+                  }`}
+                >
+                  <span className="text-2xl mr-3">{service.icon}</span>
+                  <span className={`font-medium text-sm ${isSelected ? 'text-primary-700' : 'text-gray-700'}`}>
+                    {service.name}
                   </span>
                 </button>
               );
@@ -729,10 +778,36 @@ export const Services: React.FC = () => {
           {/* Service Details */}
           <Card>
             <CardHeader>
-              <CardTitle>{t('serviceDetails')}</CardTitle>
+              <CardTitle>
+                {selectedGovService ? selectedGovService.name : t('serviceDetails')}
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              {renderServiceForm()}
+              {selectedGovService ? (
+                <div className="text-center py-4">
+                  <div className="text-4xl mb-2">{selectedGovService.icon}</div>
+                  {selectedGovService.description && (
+                    <p className="text-gray-600">{selectedGovService.description}</p>
+                  )}
+                  <a
+                    href={selectedGovService.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center mt-3 text-primary-600 hover:text-primary-800 font-medium"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openServiceLink(selectedGovService.link!);
+                    }}
+                  >
+                    <span>{t('openLink')}</span>
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+              ) : (
+                renderServiceForm()
+              )}
             </CardContent>
           </Card>
 
