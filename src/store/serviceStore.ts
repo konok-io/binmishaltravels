@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import type { Service, ServiceCategory } from '@/types';
 import { dataProvider } from '@/api/dataProvider';
 
@@ -19,66 +18,59 @@ interface ServiceState {
   getServicesByCategory: (category: ServiceCategory) => Service[];
 }
 
-export const useServiceStore = create<ServiceState>()(
-  persist(
-    (set, get) => ({
-      services: [],
-      isLoading: false,
-      error: null,
+export const useServiceStore = create<ServiceState>()((set, get) => ({
+  services: [],
+  isLoading: false,
+  error: null,
 
-      fetchServices: async () => {
-        set({ isLoading: true, error: null });
-        try {
-          const data = await dataProvider.services.getAll();
-          set({ services: data, isLoading: false });
-        } catch (error: any) {
-          set({ error: error.message, isLoading: false });
-        }
-      },
-
-      setServices: (services) => set({ services }),
-
-      addService: (service) => {
-        set((state) => ({
-          services: [...state.services, service],
-        }));
-      },
-
-      updateService: (id, data) => {
-        set((state) => ({
-          services: state.services.map((s) =>
-            s.id === id ? { ...s, ...data } : s
-          ),
-        }));
-      },
-
-      deleteService: async (id) => {
-        set({ isLoading: true });
-        try {
-          await dataProvider.services.delete(id);
-          set((state) => ({
-            services: state.services.filter((s) => s.id !== id),
-            isLoading: false,
-          }));
-        } catch (error: any) {
-          set({ error: error.message, isLoading: false });
-        }
-      },
-
-      getServiceById: (id) => {
-        return get().services.find((s) => s.id === id);
-      },
-
-      getServiceByCode: (code) => {
-        return get().services.find((s) => s.code === code);
-      },
-
-      getServicesByCategory: (category) => {
-        return get().services.filter((s) => s.category === category);
-      },
-    }),
-    {
-      name: 'service-storage',
+  fetchServices: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const data = await dataProvider.services.getAll();
+      set({ services: data, isLoading: false });
+    } catch (error: any) {
+      set({ error: error.message, isLoading: false });
     }
-  )
-);
+  },
+
+  setServices: (services) => set({ services }),
+
+  addService: (service) => {
+    set((state) => ({
+      services: [...state.services, service],
+    }));
+  },
+
+  updateService: (id, data) => {
+    set((state) => ({
+      services: state.services.map((s) =>
+        s.id === id ? { ...s, ...data } : s
+      ),
+    }));
+  },
+
+  deleteService: async (id) => {
+    set({ isLoading: true });
+    try {
+      await dataProvider.services.delete(id);
+      set((state) => ({
+        services: state.services.filter((s) => s.id !== id),
+        isLoading: false,
+      }));
+    } catch (error: any) {
+      set({ error: error.message, isLoading: false });
+    }
+  },
+
+  getServiceById: (id) => {
+    return get().services.find((s) => s.id === id);
+  },
+
+  getServiceByCode: (code) => {
+    return get().services.find((s) => s.code === code);
+  },
+
+  getServicesByCategory: (category) => {
+    return get().services.filter((s) => s.category === category);
+  },
+}));
