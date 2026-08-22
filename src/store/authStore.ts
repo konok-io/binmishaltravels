@@ -19,15 +19,50 @@ interface AuthState {
   clearError: () => void;
 }
 
+// Session storage helpers
+const SESSION_KEY = 'binmishal_auth';
+
+const saveToSession = (data: { user: User | null; token: string | null }) => {
+  try {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
+  } catch (e) {
+    // sessionStorage not available
+  }
+};
+
+const loadFromSession = () => {
+  try {
+    const stored = sessionStorage.getItem(SESSION_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    // ignore
+  }
+  return { user: null, token: null };
+};
+
+const clearSession = () => {
+  try {
+    sessionStorage.removeItem(SESSION_KEY);
+  } catch (e) {
+    // ignore
+  }
+};
+
+// Load initial state from session
+const initialSession = loadFromSession();
+
 export const useAuthStore = create<AuthState>()((set, get) => ({
-  user: null,
+  user: initialSession.user,
   currentBranch: null,
-  token: null,
-  isAuthenticated: false,
+  token: initialSession.token,
+  isAuthenticated: !!initialSession.token && !!initialSession.user,
   isLoading: false,
   error: null,
 
   setAuth: (user, branch, token) => {
+    saveToSession({ user, token });
     set({
       user,
       currentBranch: branch,
@@ -46,6 +81,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       
       if (response.success) {
         const { user, token } = response.data;
+        saveToSession({ user, token });
         set({
           user,
           currentBranch: null,
@@ -72,6 +108,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
 
   logout: () => {
+    clearSession();
     set({
       user: null,
       currentBranch: null,
@@ -85,7 +122,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   checkAuth: async () => {
     const { token } = get();
     if (token) {
-      set({ isLoading: false });
+      set({ isLoading: false, isAuthenticated: true });
     } else {
       set({ isLoading: false, isAuthenticated: false });
     }

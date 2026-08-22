@@ -23,10 +23,10 @@ class ApiClient {
 
   private getToken(): string | null {
     try {
-      const stored = localStorage.getItem('auth-storage');
+      const stored = sessionStorage.getItem('binmishal_auth');
       if (stored) {
         const parsed = JSON.parse(stored);
-        return parsed.state?.token || null;
+        return parsed.token || null;
       }
     } catch {
       // ignore
