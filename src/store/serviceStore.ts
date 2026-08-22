@@ -37,9 +37,13 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
   setServices: (services) => set({ services }),
 
   addService: async (service) => {
-    set({ isLoading: true, error: null });
+    // First add to local state immediately
+    set((state) => ({
+      services: [...state.services, service],
+    }));
+    
     try {
-      // Convert to DTO format for API
+      // Then save to API
       const serviceDto: CreateServiceDto = {
         name: service.name,
         nameBn: service.nameBn,
@@ -52,20 +56,17 @@ export const useServiceStore = create<ServiceState>()((set, get) => ({
         isActive: service.isActive,
       };
       
-      // Save to API
       const savedService = await dataProvider.services.create(serviceDto);
-      // Update local state with the saved service (which has the correct ID from DB)
+      
+      // Update with saved service (has DB ID)
       set((state) => ({
-        services: [...state.services.filter(s => s.id !== service.id), savedService],
-        isLoading: false,
+        services: state.services.map(s => 
+          s.id === service.id ? savedService : s
+        ),
       }));
     } catch (error: any) {
-      // If API fails, still keep in local state
-      set((state) => ({
-        services: [...state.services, service],
-        isLoading: false,
-        error: error.message,
-      }));
+      set({ error: error.message });
+      console.error('Failed to save service to API:', error);
     }
   },
 
