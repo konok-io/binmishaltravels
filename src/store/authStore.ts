@@ -51,7 +51,7 @@ export const useAuthStore = create<AuthState>()(
             const { user, token } = response.data;
             set({
               user,
-              currentBranch: user.branchId as unknown as Branch || null,
+              currentBranch: null,
               token,
               isAuthenticated: true,
               isLoading: false,
