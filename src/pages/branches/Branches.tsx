@@ -25,6 +25,9 @@ export const Branches: React.FC = () => {
 
   const isSuperAdmin = user?.role === 'super_admin';
 
+  console.log('👤 Branches - user:', user);
+  console.log('👤 Branches - user.role:', user?.role);
+
   // Access check for non-super-admin
   if (!isSuperAdmin) {
     return (
