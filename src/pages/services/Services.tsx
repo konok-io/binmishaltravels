@@ -51,7 +51,7 @@ export const Services: React.FC = () => {
   }, [services]);
 
   // Handle add new government service
-  const handleAddGovernmentService = () => {
+  const handleAddGovernmentService = async () => {
     if (!newService.name || !newService.link) return;
 
     const service: Service = {
@@ -67,7 +67,11 @@ export const Services: React.FC = () => {
       isActive: true,
     };
 
-    addService(service);
+    await addService(service);
+    
+    // Refresh services from API to ensure consistency
+    await fetchServices();
+    
     setShowAddModal(false);
     setNewService({ name: '', icon: '🔗', description: '', link: '' });
   };
