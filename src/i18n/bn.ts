@@ -73,6 +73,17 @@ export const bn = {
   
   // Services
   services: 'সেবাসমূহ',
+  governmentServices: 'সরকারি সেবাসমূহ',
+  addNewService: 'নতুন সেবা যুক্ত করুন',
+  openLink: 'লিংক খুলুন',
+  noGovernmentServices: 'কোনো সরকারি সেবা নেই',
+  addFirstGovernmentService: 'প্রথম সরকারি সেবা যুক্ত করতে নিচের বাটনে ক্লিক করুন',
+  serviceName: 'সেবার নাম',
+  enterServiceName: 'সেবার নাম লিখুন',
+  icon: 'আইকন',
+  link: 'লিংক',
+  description: 'বিবরণ',
+  enterDescription: 'বিবরণ লিখুন',
   service: 'সেবা',
   serviceList: 'সেবার তালিকা',
   addService: 'সেবা যোগ করুন',

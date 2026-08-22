@@ -73,6 +73,17 @@ export const en = {
   
   // Services
   services: 'Services',
+  governmentServices: 'Government Services',
+  addNewService: 'Add New Service',
+  openLink: 'Open Link',
+  noGovernmentServices: 'No Government Services',
+  addFirstGovernmentService: 'Click the button below to add your first government service',
+  serviceName: 'Service Name',
+  enterServiceName: 'Enter service name',
+  icon: 'Icon',
+  link: 'Link',
+  description: 'Description',
+  enterDescription: 'Enter description',
   service: 'Service',
   serviceList: 'Service List',
   addService: 'Add Service',

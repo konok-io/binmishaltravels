@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '@/i18n';
-import { useAuthStore, useTransactionStore, useCustomerStore, useBranchStore } from '@/store';
+import { useAuthStore, useTransactionStore, useCustomerStore, useBranchStore, useServiceStore } from '@/store';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
-import type { ServiceCategory, Customer, ServiceDetails } from '@/types';
+import type { ServiceCategory, Customer, ServiceDetails, Service } from '@/types';
 
 // Service type definitions
 const SERVICE_TYPES = [
@@ -23,8 +23,48 @@ export const Services: React.FC = () => {
   const { addTransaction } = useTransactionStore();
   const { addCustomer, searchCustomers } = useCustomerStore();
   const { branches } = useBranchStore();
+  const { services, addService } = useServiceStore();
 
   const isSuperAdmin = user?.role === 'super_admin';
+
+  // Tab state: 'transaction' or 'government'
+  const [activeTab, setActiveTab] = useState<'transaction' | 'government'>('transaction');
+
+  // Government services modal state
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newService, setNewService] = useState({
+    name: '',
+    icon: '🔗',
+    description: '',
+    link: '',
+  });
+
+  // Filter government services (services with links)
+  const governmentServices = useMemo(() => {
+    return services.filter(s => s.link);
+  }, [services]);
+
+  // Handle add new government service
+  const handleAddGovernmentService = () => {
+    if (!newService.name || !newService.link) return;
+
+    const service: Service = {
+      id: `GOV-${Date.now()}`,
+      code: `gov_${Date.now()}`,
+      name: newService.name,
+      nameBn: newService.name,
+      nameAr: newService.name,
+      category: 'air_ticket',
+      icon: newService.icon || '🔗',
+      description: newService.description,
+      link: newService.link,
+      isActive: true,
+    };
+
+    addService(service);
+    setShowAddModal(false);
+    setNewService({ name: '', icon: '🔗', description: '', link: '' });
+  };
 
   // Selected service type
   const [selectedType, setSelectedType] = useState<ServiceCategory>('air_ticket');
@@ -158,6 +198,17 @@ export const Services: React.FC = () => {
       airport_print: t('airportPrint'),
     };
     return names[type] || type;
+  };
+
+  // Open government service link
+  const openServiceLink = (link: string) => {
+    if (link) {
+      // Check if link has protocol, if not add https://
+      const url = link.startsWith('http://') || link.startsWith('https://') 
+        ? link 
+        : `https://${link}`;
+      window.open(url, '_blank');
+    }
   };
 
   // Render service-specific form
@@ -386,6 +437,145 @@ export const Services: React.FC = () => {
         </Button>
       </div>
 
+      {/* Tabs */}
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex space-x-8">
+          <button
+            onClick={() => setActiveTab('transaction')}
+            className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              activeTab === 'transaction'
+                ? 'border-primary-500 text-primary-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            {t('services')}
+          </button>
+          <button
+            onClick={() => setActiveTab('government')}
+            className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              activeTab === 'government'
+                ? 'border-primary-500 text-primary-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            {t('governmentServices')}
+          </button>
+        </nav>
+      </div>
+
+      {/* Government Services Tab */}
+      {activeTab === 'government' && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">{t('governmentServices')}</h2>
+            <Button onClick={() => setShowAddModal(true)}>
+              + {t('addNewService')}
+            </Button>
+          </div>
+
+          {/* Service Cards Grid */}
+          {governmentServices.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {governmentServices.map((service) => (
+                <Card 
+                  key={service.id}
+                  className="cursor-pointer hover:shadow-lg transition-shadow border-2 border-transparent hover:border-primary-200"
+                  onClick={() => openServiceLink(service.link!)}
+                >
+                  <CardContent className="text-center p-6">
+                    <div className="text-5xl mb-3">{service.icon}</div>
+                    <h3 className="font-semibold text-gray-900 mb-2">{service.name}</h3>
+                    {service.description && (
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{service.description}</p>
+                    )}
+                    <div className="inline-flex items-center text-primary-600 text-sm font-medium">
+                      <span>{t('openLink')}</span>
+                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-lg">
+              <div className="text-5xl mb-4">🔗</div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">{t('noGovernmentServices')}</h3>
+              <p className="text-gray-600 mb-4">{t('addFirstGovernmentService')}</p>
+              <Button onClick={() => setShowAddModal(true)}>
+                + {t('addNewService')}
+              </Button>
+            </div>
+          )}
+
+          {/* Add Service Modal */}
+          {showAddModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+              <Card className="w-full max-w-md">
+                <CardHeader>
+                  <CardTitle>{t('addNewService')}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Input
+                    label={t('serviceName')}
+                    value={newService.name}
+                    onChange={(e) => setNewService({ ...newService, name: e.target.value })}
+                    placeholder={t('enterServiceName')}
+                    required
+                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t('icon')}</label>
+                    <div className="flex flex-wrap gap-2">
+                      {['🔗', '🏛️', '📋', '📄', '🔍', '💻', '🌐', '📱', '🖥️', '📝', '🎫', '🏢'].map((icon) => (
+                        <button
+                          key={icon}
+                          type="button"
+                          onClick={() => setNewService({ ...newService, icon })}
+                          className={`w-10 h-10 text-xl rounded-lg border-2 ${
+                            newService.icon === icon
+                              ? 'border-primary-500 bg-primary-50'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {icon}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <Input
+                    label={t('link')}
+                    value={newService.link}
+                    onChange={(e) => setNewService({ ...newService, link: e.target.value })}
+                    placeholder="https://example.com"
+                    required
+                  />
+                  <Input
+                    label={t('description')}
+                    value={newService.description}
+                    onChange={(e) => setNewService({ ...newService, description: e.target.value })}
+                    placeholder={t('enterDescription')}
+                  />
+                  <div className="flex justify-end gap-3 pt-4">
+                    <Button variant="outline" onClick={() => setShowAddModal(false)}>
+                      {t('cancel')}
+                    </Button>
+                    <Button
+                      onClick={handleAddGovernmentService}
+                      disabled={!newService.name || !newService.link}
+                    >
+                      {t('save')}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Transaction Services Tab */}
+      {activeTab === 'transaction' && (
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Service Type Selection - Sidebar */}
         <Card className="lg:col-span-1">
@@ -601,7 +791,8 @@ export const Services: React.FC = () => {
             </Button>
           </div>
         </div>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -62,6 +62,7 @@ export interface Service {
   category: ServiceCategory;
   icon: string;
   description?: string;
+  link?: string;
   isActive: boolean;
 }
 
