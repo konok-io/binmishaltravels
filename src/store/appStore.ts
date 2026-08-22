@@ -2,18 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface AppState {
-  // Online/Offline status
-  isOnline: boolean;
-  setOnline: (online: boolean) => void;
-  
-  // Sync status
-  isSyncing: boolean;
-  lastSyncAt: string | null;
-  pendingChanges: number;
-  setSyncing: (syncing: boolean) => void;
-  setLastSync: (time: string) => void;
-  setPendingChanges: (count: number) => void;
-  
   // UI state
   sidebarOpen: boolean;
   toggleSidebar: () => void;
@@ -40,18 +28,6 @@ interface Notification {
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
-      // Online/Offline
-      isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
-      setOnline: (online) => set({ isOnline: online }),
-      
-      // Sync
-      isSyncing: false,
-      lastSyncAt: null,
-      pendingChanges: 0,
-      setSyncing: (syncing) => set({ isSyncing: syncing }),
-      setLastSync: (time) => set({ lastSyncAt: time }),
-      setPendingChanges: (count) => set({ pendingChanges: count }),
-      
       // UI
       sidebarOpen: true,
       toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
@@ -96,14 +72,3 @@ export const useAppStore = create<AppState>()(
     }
   )
 );
-
-// Setup online/offline listeners
-if (typeof window !== 'undefined') {
-  window.addEventListener('online', () => {
-    useAppStore.getState().setOnline(true);
-  });
-  
-  window.addEventListener('offline', () => {
-    useAppStore.getState().setOnline(false);
-  });
-}
