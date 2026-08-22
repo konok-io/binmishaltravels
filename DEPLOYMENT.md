@@ -297,16 +297,6 @@ systemctl restart nginx
 
 ---
 
-## 🔐 Default Login Credentials
-
-| Email | Password | Role |
-|-------|----------|------|
-| admin@binmishaltravels.com | admin123 | Super Admin |
-| manager.riyadh@binmishaltravels.com | manager123 | Branch Manager |
-| staff.riyadh@binmishaltravels.com | staff123 | Branch Staff |
-
----
-
 ## 🆘 Troubleshooting
 
 ### API not responding?

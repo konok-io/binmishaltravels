@@ -24,12 +24,12 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-800 to-primary-900 ${isRTL ? 'rtl' : 'ltr'}`}
+    <div className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-800 to-primary-900 overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}>
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2" />
+      {/* Background pattern - extended to cover scrolling */}
+      <div className="fixed inset-0 opacity-10 overflow-hidden">
+        <div className="absolute top-0 left-0 w-[150vh] h-[150vh] bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-[150vh] h-[150vh] bg-white rounded-full translate-x-1/2 translate-y-1/2" />
       </div>
 
       <div className="relative w-full max-w-md px-6">
@@ -108,17 +108,6 @@ export const Login: React.FC = () => {
                 {isLoading ? t('signingIn') : t('login')}
               </Button>
             </form>
-
-            {/* Demo credentials */}
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-500 text-center mb-3">Demo Credentials:</p>
-              <div className="space-y-2 text-xs text-gray-600 bg-gray-50 p-3 rounded-lg">
-                <p><strong>Super Admin:</strong> admin@binmishal.com</p>
-                <p><strong>Branch Manager:</strong> mecca1@binmishal.com</p>
-                <p><strong>Branch Staff:</strong> jeddah1@binmishal.com</p>
-                <p><strong>Password:</strong> demo123</p>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
